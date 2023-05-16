@@ -7,18 +7,23 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ListView
 import androidx.activity.result.contract.ActivityResultContracts
+import lt.arturas.customadapterexercise.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var adapter: CustomAdapter
-    lateinit var itemListView: ListView
-    lateinit var openSecondActivityButton: Button
+    //lateinit var itemListView: ListView
+    //lateinit var openSecondActivityButton: Button
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        itemListView = findViewById(R.id.itemListView)
-        openSecondActivityButton = findViewById(R.id.button)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        //itemListView = findViewById(R.id.itemListView)
+        //openSecondActivityButton = findViewById(R.id.button)
 
         val employees = mutableListOf<Employee>()
         generateListOfItems(employees)
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        itemListView.adapter = adapter
+        binding.itemListView.adapter = adapter
 
         setClickOpenItemDetails()
         setClickOpenSecondActivity()
@@ -54,14 +59,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun setClickOpenSecondActivity() {
-        openSecondActivityButton.setOnClickListener {
+        binding.button.setOnClickListener {
 //            startActivity(Intent(this, SecondActivity::class.java))
             startActivityForResult.launch(Intent(this, SecondActivity::class.java))
         }
     }
 
     private fun setClickOpenItemDetails() {
-        itemListView.setOnItemClickListener { adapterView, view, position, l ->
+        binding.itemListView.setOnItemClickListener { adapterView, view, position, l ->
             val item: Employee = adapterView.getItemAtPosition(position) as Employee
 
             val itemIntent = Intent(this, SecondActivity::class.java)
